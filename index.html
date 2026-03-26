@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Picking Machines</title>
+  <meta name="description" content="Picking Machines — Mobile manipulation robotics for agriculture." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500&family=IBM+Plex+Sans:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:    #0b0d10;
+      --border: #ffffff18;
+      --border-focus: #3a8fa8;
+      --text:  #f0ede6;
+      --text2: #a8b0b8;
+      --text3: #55606a;
+      --red:   #c8382a;
+      --teal:  #3a8fa8;
+      --mono:  'IBM Plex Mono', monospace;
+      --sans:  'IBM Plex Sans', sans-serif;
+    }
+
+    html, body { height: 100%; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* ── Background photo ── */
+    .bg-photo {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background: url('bg.jpg') center center / cover no-repeat;
+    }
+    /* Multi-layer overlay: dark vignette + slight desaturation feel */
+    .bg-photo::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(to bottom,
+          rgba(11,13,16,0.72) 0%,
+          rgba(11,13,16,0.55) 40%,
+          rgba(11,13,16,0.75) 75%,
+          rgba(11,13,16,0.95) 100%
+        );
+    }
+
+    /* Subtle grid on top of photo */
+    .bg-grid {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 72px 72px;
+      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 0%, transparent 80%);
+      -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 0%, transparent 80%);
+    }
+
+    /* ── Layout ── */
+    .page {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* ── Nav ── */
+    nav {
+      padding: 28px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .nav-name {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text2);
+    }
+    .nav-status {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text3);
+    }
+    .nav-status-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: var(--red);
+      animation: pulse 2.5s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.35; }
+    }
+
+    /* ── Hero ── */
+    .hero {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 60px 24px 80px;
+      animation: fadeUp 1s ease 0.15s both;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .logo-wrap {
+      width: 200px;
+      height: 200px;
+      margin-bottom: 10px;
+      /* Slight drop shadow so logo reads against photo */
+      filter: drop-shadow(0 4px 32px rgba(0,0,0,0.6));
+    }
+    .logo-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+    /* Wordmark fallback */
+    .wordmark {
+      display: none;
+      font-family: var(--mono);
+      font-size: 24px;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text);
+      margin-bottom: 24px;
+    }
+
+    /* ── Headline ── */
+    .headline {
+      font-family: var(--mono);
+      font-size: clamp(28px, 5vw, 52px);
+      font-weight: 400;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      color: var(--text);
+      margin-bottom: 18px;
+    }
+    .headline em {
+      font-style: italic;
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-weight: 300;
+      color: rgba(240,237,230,0.75);
+    }
+
+    /* ── Sub-tagline ── */
+    .sub {
+      font-family: var(--sans);
+      font-size: clamp(14px, 2vw, 17px);
+      font-weight: 300;
+      color: var(--text2);
+      max-width: 420px;
+      line-height: 1.75;
+      margin-bottom: 52px;
+    }
+
+    /* ── Pill chips ── */
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      margin-bottom: 52px;
+    }
+    .chip {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text3);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 2px;
+      padding: 5px 12px;
+      background: rgba(11,13,16,0.45);
+      backdrop-filter: blur(4px);
+    }
+
+    /* ── Divider ── */
+    .divider {
+      width: 32px;
+      height: 1px;
+      background: rgba(255,255,255,0.12);
+      margin: 0 auto 32px;
+    }
+
+    /* ── Form ── */
+    .form-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--text3);
+      margin-bottom: 14px;
+    }
+
+    .form-row {
+      display: flex;
+      width: 100%;
+      max-width: 420px;
+      gap: 8px;
+    }
+
+    .form-row input[type="email"] {
+      flex: 1;
+      background: rgba(11,13,16,0.55);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 13px 16px;
+      font-family: var(--mono);
+      font-size: 13px;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.2s;
+      min-width: 0;
+    }
+    .form-row input::placeholder { color: var(--text3); }
+    .form-row input:focus { border-color: var(--border-focus); }
+
+    .form-row button {
+      background: var(--red);
+      border: 1px solid var(--red);
+      border-radius: 3px;
+      padding: 13px 20px;
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #fff;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.2s, transform 0.15s;
+      flex-shrink: 0;
+    }
+    .form-row button:hover { background: #a52d22; transform: translateY(-1px); }
+    .form-row button:disabled {
+      background: var(--teal);
+      border-color: var(--teal);
+      cursor: default;
+      transform: none;
+    }
+
+    .form-note {
+      margin-top: 12px;
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      color: var(--text3);
+    }
+    .success-msg {
+      display: none;
+      margin-top: 12px;
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      color: var(--teal);
+    }
+
+    /* ── Footer ── */
+    footer {
+      position: relative;
+      z-index: 2;
+      padding: 24px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      flex-wrap: wrap;
+      gap: 12px;
+      background: rgba(11,13,16,0.7);
+      backdrop-filter: blur(8px);
+    }
+    .footer-copy {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      color: var(--text3);
+    }
+    .footer-email a {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      color: var(--text3);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-email a:hover { color: var(--text2); }
+
+    @media (max-width: 500px) {
+      nav { padding: 20px; }
+      .form-row { flex-direction: column; max-width: 100%; }
+      .logo-wrap { width: 160px; height: 160px; }
+      .headline { font-size: 28px; }
+      footer { justify-content: center; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-photo"></div>
+  <div class="bg-grid"></div>
+
+  <div class="page">
+
+    <nav>
+      <span class="nav-name">Picking Machines</span>
+      <span class="nav-status">
+        <span class="nav-status-dot"></span>
+        Stealth
+      </span>
+    </nav>
+
+    <main class="hero">
+
+      <div class="logo-wrap">
+        <img src="" alt="Picking Machines"
+          onerror="this.style.display='none'; document.querySelector('.wordmark').style.display='block';" />
+      </div>
+      <div class="wordmark">Picking Machines</div>
+
+      <h1 class="headline">Augmenting<br/><em>the farm worker.</em></h1>
+
+      <p class="sub">
+        Robots that augment the agriculture workforce in the world's most labor-intensive crops.
+      </p>
+
+      <div class="chips">
+        <span class="chip">AgTech</span>
+        <span class="chip">Strawberry Automation</span>
+        <span class="chip">Mobile Manipulation</span>
+      </div>
+
+      <div class="divider"></div>
+
+      <form
+        class="form-row"
+        action="https://api.web3forms.com/submit"
+        method="POST"
+        onsubmit="handleSubmit(event)"
+      >
+        <input type="hidden" name="access_key" value="2058524d-fd0b-440c-a88f-aaebece302e4" />
+        <input type="email" name="email" placeholder="your@email.com" autocomplete="email" required />
+        <button type="submit" id="submit-btn">Get in touch</button>
+      </form>
+
+      <p class="form-note" id="form-note" data-default="Investors, growers, and collaborators welcome.">Investors, growers, and collaborators welcome.</p>
+      <p class="success-msg" id="success-msg">✓ &nbsp;We'll be in touch.</p>
+
+    </main>
+
+    <footer>
+      <span class="footer-copy">© 2025 Picking Machines LLC</span>
+      <!--
+      <span class="footer-email"><a href="mailto:hello@pickingmachines.com">hello@pickingmachines.com</a></span>
+      -->
+    </footer>
+
+  </div>
+
+  <script>
+    function handleSubmit(e) {
+      e.preventDefault();
+      const form = e.target;
+      const btn = document.getElementById('submit-btn');
+      const note = document.getElementById('form-note');
+      const success = document.getElementById('success-msg');
+      const prevLabel = btn.textContent;
+      note.textContent = note.dataset.default || note.textContent;
+      btn.disabled = true;
+      btn.textContent = 'Sending…';
+      success.style.display = 'none';
+      note.style.display = 'block';
+
+      fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { Accept: 'application/json' },
+      })
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+          if (data.success) {
+            note.style.display = 'none';
+            success.style.display = 'block';
+            btn.textContent = 'Sent';
+            form.reset();
+          } else {
+            btn.disabled = false;
+            btn.textContent = prevLabel;
+            note.textContent = data.message || 'Something went wrong. Please try again.';
+          }
+        })
+        .catch(function () {
+          btn.disabled = false;
+          btn.textContent = prevLabel;
+          note.textContent = 'Network error. Please try again.';
+        });
+    }
+  </script>
+
+</body>
+</html>
