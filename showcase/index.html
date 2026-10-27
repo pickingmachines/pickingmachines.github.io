@@ -1,16 +1,225 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>Picking Machines — Blueprint Showcase</title>
-  <!-- Placeholder: the Blueprint Showcase poster QR code points here. Keep this URL alive;
-       replace the redirect with a showcase-specific page later. UTM tags attribute scans in GA. -->
-  <meta name="robots" content="noindex">
-  <meta http-equiv="refresh" content="0; url=/?utm_source=qr&utm_medium=poster&utm_campaign=blueprint-showcase-2026">
-  <script>window.location.replace("/?utm_source=qr&utm_medium=poster&utm_campaign=blueprint-showcase-2026");</script>
+  <!-- Google tag (gtag.js) — same property as the home page -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-B9Y94K4P0W"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-B9Y94K4P0W');
+  </script>
+  <!-- PREVIEW-CUT -->
+<title>Picking Machines · Blueprint Showcase</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!--
+  Blueprint Showcase landing page, minimal version (poster QR code → pickingmachines.com/showcase).
+  Public media rule: top gripper camera and wide shots only; no jaw-mechanism close-ups.
+-->
+<meta name="robots" content="noindex">
+<meta name="description" content="Picking Machines teaches robots farm work. First job: strawberry runners.">
+<link rel="canonical" href="https://pickingmachines.com/showcase/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://pickingmachines.com/showcase/">
+<meta property="og:title" content="Picking Machines · We teach robots farm work">
+<meta property="og:description" content="First job: strawberry runners.">
+<meta property="og:image" content="https://pickingmachines.com/showcase/media/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;800&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+  /* Layout: full-bleed aerial hero, then the videos in one column. Palette and faces follow the Blueprint deck. */
+  :root {
+    --paper: #F8F6F2;
+    --ink: #19231D;
+    --ink-2: #47534C;
+    --ink-3: #5F6961;
+    --rule: #D3D4CA;
+    --wheat: #E3BE80;
+    --hero-bg: #0C100D;
+    --hero-ink: #FFFFFF;
+    --hero-ink-2: rgba(255, 255, 255, 0.86);
+    --hero-btn: #E3BE80;
+    --hero-btn-ink: #19231D;
+    --display: 'Archivo', 'Helvetica Neue', Arial, sans-serif;
+    --mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    --wrap: 1120px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #101612; --ink: #ECEEE8; --ink-2: #BDC5BE; --ink-3: #9AA39B; --rule: #2C3830;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #101612; --ink: #ECEEE8; --ink-2: #BDC5BE; --ink-3: #9AA39B; --rule: #2C3830;
+    color-scheme: dark;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0; background: var(--paper); color: var(--ink);
+    font-family: var(--display); font-size: 1.0625rem; line-height: 1.6; -webkit-font-smoothing: antialiased;
+  }
+  img, video { max-width: 100%; display: block; }
+  p, h1 { margin: 0; }
+  :focus-visible { outline: 3px solid var(--wheat); outline-offset: 3px; border-radius: 2px; }
+  .wrap {
+    max-width: var(--wrap); margin: 0 auto;
+    padding-left: max(20px, env(safe-area-inset-left, 0px));
+    padding-right: max(20px, env(safe-area-inset-right, 0px));
+  }
+
+  /* Hero */
+  .hero {
+    position: relative; isolation: isolate; overflow: hidden;
+    min-height: clamp(520px, 80svh, 800px);
+    display: flex; color: var(--hero-ink); background: var(--hero-bg);
+  }
+  .hero-photo, .hero-photo img { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .hero-photo img { object-fit: cover; object-position: 28% 40%; }
+  .hero-shade {
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(90deg, rgba(12,16,13,0.62) 0%, rgba(12,16,13,0.30) 45%, rgba(12,16,13,0) 72%),
+      linear-gradient(180deg, rgba(12,16,13,0.62) 0%, rgba(12,16,13,0.18) 26%, rgba(12,16,13,0.30) 50%, rgba(12,16,13,0.88) 78%, rgba(12,16,13,0.96) 100%);
+  }
+  .hero-inner {
+    position: relative; width: 100%;
+    display: flex; flex-direction: column; justify-content: space-between; gap: 48px;
+    padding-top: max(22px, env(safe-area-inset-top, 0px)); padding-bottom: clamp(36px, 6vw, 72px);
+  }
+  .wordmark {
+    font-family: var(--mono); font-weight: 500; font-size: 0.95rem;
+    letter-spacing: 0.32em; text-transform: uppercase; text-decoration: none; color: var(--hero-ink);
+  }
+  .hero-copy { max-width: 820px; display: flex; flex-direction: column; gap: 22px; }
+  .eyebrow {
+    display: flex; align-items: center; gap: 12px; color: var(--wheat);
+    font-family: var(--mono); font-size: 0.76rem; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase;
+  }
+  .eyebrow::before { content: ""; width: 32px; height: 2px; background: currentColor; flex: none; }
+  h1 { font-size: clamp(2.35rem, 6.4vw, 4.75rem); font-weight: 800; line-height: 1.0; letter-spacing: -0.025em; text-wrap: balance; }
+  h1 span { display: block; color: var(--wheat); }
+  .lede { color: var(--hero-ink-2); font-size: clamp(1.05rem, 1.7vw, 1.25rem); line-height: 1.55; max-width: 52ch; }
+  .actions { display: flex; flex-wrap: wrap; gap: 10px; }
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    min-height: 46px; padding: 10px 18px; border-radius: 3px; border: 1px solid transparent;
+    font-family: var(--mono); font-size: 0.8rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
+    text-decoration: none; cursor: pointer;
+  }
+  .btn svg { width: 16px; height: 16px; flex: none; }
+  .btn--hero { background: var(--hero-btn); color: var(--hero-btn-ink); }
+  .btn--ghost { border-color: rgba(255,255,255,0.55); color: var(--hero-ink); background: rgba(12,16,13,0.25); }
+  @media (max-width: 700px) {
+    .hero { min-height: 0; }
+    .hero-photo, .hero-photo img { bottom: auto; height: 64vw; }
+    .hero-photo img { object-position: 50% 50%; }
+    .hero-shade { background: linear-gradient(180deg, rgba(12,16,13,0.6) 0, rgba(12,16,13,0) 22vw, rgba(12,16,13,0.25) 40vw, #0C100D 62vw, #0C100D 100%); }
+    .hero-inner { justify-content: flex-start; gap: 0; }
+    .hero-copy { margin-top: calc(64vw - 96px); }
+  }
+
+  /* Cut wall */
+  .media { padding-block: clamp(40px, 7vw, 88px); }
+  .frame { position: relative; aspect-ratio: 16 / 9; max-width: 100%; background: #000000; border-radius: 4px; overflow: hidden; }
+  .frame video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .wall-toggle {
+    position: absolute; right: 12px; bottom: 12px; min-height: 36px; padding: 6px 12px;
+    font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: #FFFFFF; background: rgba(12,16,13,0.7); border: 1px solid rgba(255,255,255,0.5); border-radius: 3px; cursor: pointer;
+  }
+  figure { margin: 0; }
+  figcaption { margin-top: 14px; font-weight: 500; color: var(--ink); }
+
+  footer { border-top: 1px solid var(--rule); padding-block: 24px 28px; }
+  .foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px 24px; font-family: var(--mono); font-size: 0.74rem; letter-spacing: 0.04em; color: var(--ink-3); }
+  .foot a { color: var(--ink-2); text-underline-offset: 3px; }
+</style>
+<!-- PREVIEW-CUT-END -->
 </head>
 <body>
-  <p>Redirecting to Picking Machines…
-     <a href="/?utm_source=qr&utm_medium=poster&utm_campaign=blueprint-showcase-2026">Click here if you are not redirected.</a></p>
+
+<header class="hero">
+  <picture class="hero-photo">
+    <source media="(max-width: 700px)" srcset="media/hero-900.jpg">
+    <img src="media/hero-1600.jpg" alt="The Picking Machines robot straddling a strawberry bed, seen from a drone" fetchpriority="high">
+  </picture>
+  <div class="hero-shade"></div>
+  <div class="wrap hero-inner">
+    <a class="wordmark" href="/">Picking Machines</a>
+    <div class="hero-copy">
+      <p class="eyebrow">Blueprint Showcase · Fall 2026</p>
+      <h1>We teach robots farm work. <span>First job: strawberry runners.</span></h1>
+      <p class="lede">Physical AI for specialty agriculture, developed on a commercial strawberry farm in Watsonville, California.</p>
+      <div class="actions">
+        <a class="btn btn--hero" href="mailto:sam@pickingmachines.com?subject=Blueprint%20Showcase" data-track="email">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" d="M3 6h18v12H3z M3 7l9 6 9-6"/></svg>Email Sam</a>
+        <a class="btn btn--ghost" href="https://www.linkedin.com/in/robosam" target="_blank" rel="noopener" data-track="linkedin">LinkedIn</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap media">
+  <figure>
+    <div class="frame">
+      <video id="wall" muted loop playsinline preload="none" poster="media/cut-wall.jpg" aria-label="Runner cuts from the robot's gripper camera, starting with one and multiplying into thousands">
+        <source src="media/cut-wall.mp4" type="video/mp4">
+      </video>
+      <button class="wall-toggle" id="wall-toggle" type="button" aria-pressed="false">Play</button>
+    </div>
+    <figcaption>One cut, then thousands.</figcaption>
+  </figure>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <span>© 2026 Picking Machines</span>
+    <a href="/">pickingmachines.com</a>
+  </div>
+</footer>
+
+<script>
+(function () {
+  document.querySelectorAll('[data-track]').forEach(function (el) {
+    el.addEventListener('click', function () {
+      try { if (typeof window.gtag === 'function') window.gtag('event', 'showcase_click', { target: el.dataset.track }); } catch (e) {}
+    });
+  });
+
+  /* Cut wall: plays muted while on screen; respects reduced motion; always pausable. */
+  var wall = document.getElementById('wall');
+  var toggle = document.getElementById('wall-toggle');
+  var held = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function label() {
+    toggle.textContent = wall.paused ? 'Play' : 'Pause';
+    toggle.setAttribute('aria-pressed', String(!wall.paused));
+  }
+  toggle.addEventListener('click', function () {
+    if (wall.paused) { held = false; wall.play().catch(function () {}); }
+    else { held = true; wall.pause(); }
+  });
+  wall.addEventListener('play', label);
+  wall.addEventListener('pause', label);
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting && !held) wall.play().catch(function () {});
+        else if (!e.isIntersecting && !wall.paused) wall.pause();
+      });
+    }, { threshold: 0.35 }).observe(wall);
+  }
+  label();
+})();
+</script>
 </body>
 </html>
